@@ -58,6 +58,7 @@ case $state in
       "track:verify a user's authenticity and optionally follow them"
       "fs:perform filesystem operations"
       "id:identify a user and check their signature chain"
+      "install:install keybase components"
       "list-followers:list thost who follow you"
       "list-following:list who you or the given user is following"
       "log:manage keybase log"
@@ -221,6 +222,19 @@ case $state in
           'write[write input to file]' \
           'help[Shows a list of commands or help for one command]'
         ;;
+      install)
+        _command_args=(
+          '(--force)--force[Force install actions.]' \
+          '(--format)--format[Format for output. Specify 'json' for JSON or blank for default.]' \
+          '(--bin-path)--bin-path[Full path to the executable, if it would be ambiguous otherwise.]' \
+          '(--installer)--installer[Installer to use.]' \
+          '(--components)--components[Components to install, comma separated]' \
+          '(--timeout)--timeout[Timeout as duration, such as '10s' or '1m'.]' \
+          '(--source-path)--source-path[Source path to app bundle.]'
+        )
+        _values "\-\-components cli service kbfs updater fuse helper app kbnm redirector clipaths" \
+        '--components[Supported components are: cli, service, kbfs, updater, fuse, helper, app, kbnm, redirector, clipaths]'
+        ;;
       id)
         _command_args=(
           '(--skip-proof-cache)--skip-proof-cache[Skip cached proofs, force re-check]'
@@ -281,6 +295,8 @@ case $state in
         _command_args=(
           '(--output)--output[Output proof text to file (rather than standard out)]' \
           "(--force)--force[Don't prompt]" \
+          '(--list-services)--list-services[List some available services]' \
+          '(--all)--all[List the full gamut of available services]' \
         )
         _values "prove command" \
           'service[Supported services are: coinbase, hackernews, reddit, dns, github, twitter, web, http, https]' \
